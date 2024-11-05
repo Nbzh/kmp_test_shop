@@ -37,36 +37,37 @@ import bzh.nvdev.melishop.data.Label
 import bzh.nvdev.melishop.utils.calculateNumberOfColumns
 import bzh.nvdev.melishop.utils.formatToTwoDecimalPlaces
 import bzh.nvdev.melishop.utils.hexToColor
-import bzh.nvdev.melishop.viewmodels.ArticleViewModel
 import coil3.compose.AsyncImage
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 @Composable
-actual fun ArticleListPage(articleViewModel: ArticleViewModel, selection: (String) -> Unit) {
-    LaunchedEffect("OnStart") {
-        articleViewModel.setCategories()
-    }
+actual fun ArticleListPage(
+    categoryListComponent: CategoryListComponent,
+    articleListComponent: ArticleListComponent,
+    selection: (Article) -> Unit
+) {
     MaterialTheme {
-        val articles = articleViewModel.articles
-        val categories = articleViewModel.categories
+        val articles by articleListComponent.model.subscribeAsState()
+        val categories by categoryListComponent.model.subscribeAsState()
         var visibleCategories by remember { mutableStateOf<List<String>>(listOf()) }
         LaunchedEffect(categories) {
             withContext(Dispatchers.Default) {
                 if (visibleCategories.isEmpty()) {
-                    visibleCategories = categories.map { it.id }
+                    visibleCategories = categories.items.map { it.id }
                 }
             }
         }
         LaunchedEffect(visibleCategories) {
             withContext(Dispatchers.Default) {
-                articleViewModel.filter(visibleCategories)
+                articleListComponent.filter(visibleCategories)
             }
         }
         Column(modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)) {
             CategoryFilterRow(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
-                categories = categories,
+                categories = categories.items,
                 visible = visibleCategories
             ) { categoryId, selected ->
                 if (selected) visibleCategories += categoryId
@@ -77,7 +78,7 @@ actual fun ArticleListPage(articleViewModel: ArticleViewModel, selection: (Strin
                 ArticleList(
                     screenWidth = availableWidth,
                     modifier = Modifier.align(Alignment.Center),
-                    articles = articles,
+                    articles = articles.items,
                     selection = selection
                 )
             }
@@ -91,7 +92,7 @@ fun ArticleList(
     screenWidth: Dp,
     modifier: Modifier,
     articles: List<Article>,
-    selection: (String) -> Unit
+    selection: (Article) -> Unit
 ) {
     val hoverState = remember { mutableStateOf<Article?>(null) } // State for hover
     if (articles.isNotEmpty()) {
@@ -129,7 +130,7 @@ fun ArticleList(
                         labels = article.labels,
                         price = article.price,
                         priceUnit = article.priceUnit,
-                        onClick = { selection(article.id) }
+                        onClick = { selection(article) }
                     )
                 }
             }
@@ -148,7 +149,7 @@ fun ArticleList(
                         price = article.price,
                         priceUnit = article.priceUnit,
                         elevation = elevation.value,
-                        onClick = { selection(article.id) }
+                        onClick = { selection(article) }
                     )
                 }
             }

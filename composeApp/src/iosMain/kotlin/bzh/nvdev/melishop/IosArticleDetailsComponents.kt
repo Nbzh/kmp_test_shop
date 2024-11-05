@@ -1,9 +1,8 @@
 package bzh.nvdev.melishop
 
 import androidx.compose.runtime.Composable
-import bzh.nvdev.melishop.viewmodels.ArticleViewModel
 
 @Composable
-actual fun ArticleDetailPage(articleViewModel: ArticleViewModel, articleId: String){
+actual fun ArticleDetailPage(articleComponent: ArticleComponent) {
 
 }

@@ -1,10 +1,14 @@
 package bzh.nvdev.melishop
 
 import androidx.compose.runtime.Composable
-import bzh.nvdev.melishop.viewmodels.ArticleViewModel
+import bzh.nvdev.melishop.data.Article
 
 @Composable
-expect fun ArticleListPage(articleViewModel: ArticleViewModel, selection: (String) -> Unit)
+expect fun ArticleListPage(
+    categoryListComponent: CategoryListComponent,
+    articleListComponent: ArticleListComponent,
+    selection: (Article) -> Unit
+)
 
 @Composable
-expect fun ArticleDetailPage(articleViewModel: ArticleViewModel, articleId: String)
+expect fun ArticleDetailPage(articleComponent: ArticleComponent)

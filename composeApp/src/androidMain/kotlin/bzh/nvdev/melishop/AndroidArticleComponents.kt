@@ -1,8 +1,12 @@
 package bzh.nvdev.melishop
 
 import androidx.compose.runtime.Composable
-import bzh.nvdev.melishop.viewmodels.ArticleViewModel
+import bzh.nvdev.melishop.data.Article
 
 @Composable
-actual fun ArticleListPage(articleViewModel: ArticleViewModel, selection: (String) -> Unit) {
+actual fun ArticleListPage(
+    categoryListComponent: CategoryListComponent,
+    articleListComponent: ArticleListComponent,
+    selection: (Article) -> Unit
+) {
 }

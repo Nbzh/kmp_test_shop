@@ -32,21 +32,17 @@ import androidx.compose.ui.unit.dp
 import bzh.nvdev.melishop.data.Article
 import bzh.nvdev.melishop.utils.formatToTwoDecimalPlaces
 import coil3.compose.AsyncImage
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import melishop.composeapp.generated.resources.Res
 import melishop.composeapp.generated.resources.icon_add
 import melishop.composeapp.generated.resources.icon_remove
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-actual fun ArticleDetailPage(articleViewModel: ArticleViewModel, articleId: String) {
-    var article by remember { mutableStateOf<Article?>(null) }
-    LaunchedEffect(articleId) {
-        article = articleViewModel.getArticle(articleId)
-    }
+actual fun ArticleDetailPage(articleComponent: ArticleComponent) {
+    val article by articleComponent.model.subscribeAsState()
     BoxWithConstraints {
-        article?.also {
-            ArticleDetailContent(screenWidth = maxWidth, article = it)
-        }
+        ArticleDetailContent(screenWidth = maxWidth, article = article.item)
     }
 }
 

@@ -1,6 +1,5 @@
 package bzh.nvdev.melishop
 
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -10,6 +9,7 @@ import bzh.nvdev.melishop.data.FoodDescriptionGenerator
 import bzh.nvdev.melishop.data.FoodNameGenerator
 import bzh.nvdev.melishop.data.fakeCategories
 import bzh.nvdev.melishop.data.fakeLabels
+import bzh.nvdev.melishop.utils.formatToTwoDecimalPlaces
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.random.Random
 import kotlin.uuid.ExperimentalUuidApi
@@ -17,11 +17,9 @@ import kotlin.uuid.Uuid
 
 @Composable
 @Preview
-fun App() {
+fun App(rootComponent: RootComponent) {
     MaterialTheme {
-        BoxWithConstraints(Modifier.fillMaxWidth()) {
-            val availableWidth = maxWidth
-        }
+        RootContent(modifier = Modifier.fillMaxWidth(), component = rootComponent)
     }
 }
 
@@ -38,7 +36,7 @@ val fakeArticle: Article
             image = "https://picsum.photos/600/338",
             labels = labels,
             isVeggies = Random.nextBoolean(),
-            price = Random.nextDouble(until = 34.99),
+            price = Random.nextDouble(until = 34.99).formatToTwoDecimalPlaces().toDouble(),
             priceUnit = listOf("pièce", "plat", "lot").shuffled().first()
         )
     }
