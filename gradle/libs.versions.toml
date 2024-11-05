@@ -21,8 +21,10 @@ ktor = "3.0.0"
 kotlinx-serialization = "1.7.3"
 lifecycleViewmodelCompose = "2.8.2"
 kotlin-parcelize = "2.0.21"
+sonner = "0.3.8"
 
 [libraries]
+sonner = { module = "io.github.dokar3:sonner", version.ref = "sonner" }
 decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
 decompose-extensions-compose = { module = "com.arkivanov.decompose:extensions-compose", version.ref = "decompose" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }

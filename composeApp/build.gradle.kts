@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.serialization)
 }
 
 kotlin {
@@ -76,6 +77,7 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.decompose)
             implementation(libs.decompose.extensions.compose)
+            implementation(libs.sonner)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
