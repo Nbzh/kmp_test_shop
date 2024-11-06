@@ -1,5 +1,10 @@
 package bzh.nvdev.melishop.data
 
+import bzh.nvdev.melishop.utils.formatToTwoDecimalPlaces
+import kotlin.random.Random
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
+
 val fakeLabels
     get() =
         listOf(
@@ -139,4 +144,21 @@ object FoodDescriptionGenerator {
         val randomFlavorProfile = flavorProfiles.random()
         return "$randomPhrase $randomFlavorProfile."
     }
+}
+
+@OptIn(ExperimentalUuidApi::class)
+fun fakeArticle(id: String = Uuid.random().toString()): Article {
+    val category = fakeCategories.shuffled().first()
+    val labels = fakeLabels.shuffled().take(Random.nextInt(1, fakeLabels.size))
+    return Article(
+        id = id,
+        category = category,
+        name = FoodNameGenerator.generateRandomFoodName(),
+        description = FoodDescriptionGenerator.generateRandomFoodDescription(),
+        image = "https://picsum.photos/600/338",
+        labels = labels,
+        isVeggies = Random.nextBoolean(),
+        price = Random.nextDouble(until = 34.99).formatToTwoDecimalPlaces().toDouble(),
+        priceUnit = listOf("pièce", "plat", "lot").shuffled().first()
+    )
 }

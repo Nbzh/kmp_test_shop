@@ -22,21 +22,3 @@ fun App(rootComponent: RootComponent) {
         RootContent(modifier = Modifier.fillMaxWidth(), component = rootComponent)
     }
 }
-
-@OptIn(ExperimentalUuidApi::class)
-val fakeArticle: Article
-    get() {
-        val category = fakeCategories.shuffled().first()
-        val labels = fakeLabels.shuffled().take(Random.nextInt(1, fakeLabels.size))
-        return Article(
-            id = Uuid.random().toString(),
-            category = category,
-            name = FoodNameGenerator.generateRandomFoodName(),
-            description = FoodDescriptionGenerator.generateRandomFoodDescription(),
-            image = "https://picsum.photos/600/338",
-            labels = labels,
-            isVeggies = Random.nextBoolean(),
-            price = Random.nextDouble(until = 34.99).formatToTwoDecimalPlaces().toDouble(),
-            priceUnit = listOf("pièce", "plat", "lot").shuffled().first()
-        )
-    }

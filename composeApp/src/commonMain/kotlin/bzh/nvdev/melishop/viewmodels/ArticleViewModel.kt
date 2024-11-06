@@ -1,7 +1,7 @@
 package bzh.nvdev.melishop.viewmodels
 
 import bzh.nvdev.melishop.data.Article
-import bzh.nvdev.melishop.fakeArticle
+import bzh.nvdev.melishop.data.fakeArticle
 import kotlin.random.Random
 
 class ArticleViewModel {
@@ -9,7 +9,7 @@ class ArticleViewModel {
     val allArticles = with(Random.nextInt(20, 45)) {
         mutableListOf<Article>().apply {
             for (i in 0..this@with) {
-                add(fakeArticle)
+                add(fakeArticle())
             }
         }
     }

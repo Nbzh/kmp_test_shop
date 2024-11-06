@@ -2,6 +2,7 @@ package bzh.nvdev.melishop
 
 import bzh.nvdev.melishop.data.Article
 import bzh.nvdev.melishop.data.Category
+import bzh.nvdev.melishop.data.fakeArticle
 import bzh.nvdev.melishop.data.fakeCategories
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
@@ -68,16 +69,15 @@ interface ArticleComponent {
     fun onBackPressed()
 }
 
-
 class FoodListComponentImpl(
     componentContext: ComponentContext,
-    private val onItemSelected: (item: Article) -> Unit,
+    private val onItemSelected: (item: String) -> Unit,
 ) : ArticleListComponent, ComponentContext by componentContext {
 
     private val allArticles = with(Random.nextInt(20, 45)) {
         mutableListOf<Article>().apply {
             for (i in 0..this@with) {
-                add(fakeArticle)
+                add(fakeArticle())
             }
         }
     }
@@ -95,18 +95,18 @@ class FoodListComponentImpl(
         MutableValue(ArticleListComponent.Model(listOf()))
 
     override fun onItemClicked(item: Article) {
-        onItemSelected(item)
+        onItemSelected(item.id)
     }
 }
 
 class FoodComponentImpl(
     componentContext: ComponentContext,
-    article: Article,
+    article: String,
     private val onFinished: () -> Unit,
 ) : ArticleComponent, ComponentContext by componentContext {
 
     override val model: Value<ArticleComponent.Model> =
-        MutableValue(ArticleComponent.Model(article))
+        MutableValue(ArticleComponent.Model(fakeArticle(article)))
 
     override fun onBackPressed() = onFinished()
 }
@@ -174,11 +174,14 @@ class DefaultRootComponent(
 
     private fun getPathForConfig(config: Config): String =
         when (config) {
-            is Config.List -> ""
-            is Config.Detail -> "/articles/${config.article.id}"
+            is Config.List -> "articles"
+            is Config.Detail -> "/articles/${config.article}"
         }
 
-    private fun getConfigForPath(path: String): Config = Config.List
+    private fun getConfigForPath(path: String): Config =
+        if (path.startsWith("/articles/") && path.length > 10)
+            Config.Detail(path.substring(10))
+        else Config.List
 
     @Serializable
     private sealed interface Config {
@@ -186,6 +189,6 @@ class DefaultRootComponent(
         data object List : Config
 
         @Serializable
-        data class Detail(val article: Article) : Config
+        data class Detail(val article: String) : Config
     }
 }
