@@ -16,6 +16,9 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -115,7 +118,7 @@ fun ArticleDetailContent(screenWidth: Dp, article: Article) {
                                     quantity = (quantity - 1).coerceAtLeast(1)
                                 }) {
                                     Icon(
-                                        painter = painterResource(Res.drawable.icon_remove),
+                                        imageVector = Icons.Default.Remove,
                                         contentDescription = "Decrease quantity"
                                     )
                                 }
@@ -125,7 +128,7 @@ fun ArticleDetailContent(screenWidth: Dp, article: Article) {
                                     quantity = (quantity + 1).coerceAtLeast(1)
                                 }) {
                                     Icon(
-                                        painter = painterResource(Res.drawable.icon_add),
+                                        imageVector = Icons.Default.Add,
                                         contentDescription = "Increase quantity"
                                     )
                                 }

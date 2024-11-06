@@ -84,6 +84,7 @@ kotlin {
         }
         wasmJsMain.dependencies {
             implementation(libs.kotlinx.coroutines.core.wasm.js)
+            implementation(libs.material.icons.extended.wasm.js)
         }
     }
 }
