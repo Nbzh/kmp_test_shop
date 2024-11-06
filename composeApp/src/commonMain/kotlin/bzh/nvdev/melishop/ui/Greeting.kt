@@ -1,4 +1,6 @@
-package bzh.nvdev.melishop
+package bzh.nvdev.melishop.ui
+
+import bzh.nvdev.melishop.getPlatform
 
 class Greeting {
     private val platform = getPlatform()
