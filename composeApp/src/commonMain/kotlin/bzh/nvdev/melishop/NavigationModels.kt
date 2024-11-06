@@ -4,12 +4,14 @@ import bzh.nvdev.melishop.data.Article
 import bzh.nvdev.melishop.data.Category
 import bzh.nvdev.melishop.data.fakeCategories
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.popTo
 import com.arkivanov.decompose.router.stack.pushNew
+import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import kotlinx.coroutines.Dispatchers
@@ -109,25 +111,40 @@ class FoodComponentImpl(
     override fun onBackPressed() = onFinished()
 }
 
-class CategoryListComponentImpl(
-    componentContext: ComponentContext,
-) : CategoryListComponent, ComponentContext by componentContext {
+class CategoryListComponentImpl(componentContext: ComponentContext) : CategoryListComponent,
+    ComponentContext by componentContext {
     override val model: MutableValue<CategoryListComponent.Model> =
         MutableValue(CategoryListComponent.Model(fakeCategories))
 }
 
-class DefaultRootComponent(componentContext: ComponentContext) :
-    RootComponent, ComponentContext by componentContext {
+@OptIn(ExperimentalDecomposeApi::class)
+class DefaultRootComponent(
+    componentContext: ComponentContext,
+    webHistoryController: WebHistoryController? = null,
+) : RootComponent, ComponentContext by componentContext {
 
     private val nav = StackNavigation<Config>()
 
-    override val stack: Value<ChildStack<*, RootComponent.Child>> = childStack(
-        source = nav,
-        serializer = Config.serializer(),
-        initialConfiguration = Config.List,
-        handleBackButton = true,
-        childFactory = ::child,
-    )
+    private val _stack =
+        childStack(
+            source = nav,
+            serializer = Config.serializer(),
+            initialStack = { listOf(Config.List) },
+            handleBackButton = true,
+            childFactory = ::child,
+        )
+
+    override val stack: Value<ChildStack<*, RootComponent.Child>> = _stack
+
+    init {
+        webHistoryController?.attach(
+            navigator = nav,
+            serializer = Config.serializer(),
+            stack = _stack,
+            getPath = ::getPathForConfig,
+            getConfiguration = ::getConfigForPath,
+        )
+    }
 
     private fun child(
         config: Config,
@@ -135,7 +152,7 @@ class DefaultRootComponent(componentContext: ComponentContext) :
     ): RootComponent.Child = when (config) { // 3
         Config.List -> RootComponent.Child.ListChild(
             CategoryListComponentImpl(componentContext = componentContext),
-            FoodListComponentImpl(componentContext = componentContext){ article ->
+            FoodListComponentImpl(componentContext = componentContext) { article ->
                 nav.pushNew(Config.Detail(article))
             }
         )
@@ -154,6 +171,14 @@ class DefaultRootComponent(componentContext: ComponentContext) :
     override fun onBackClicked(toIndex: Int) {
         nav.popTo(toIndex)
     }
+
+    private fun getPathForConfig(config: Config): String =
+        when (config) {
+            is Config.List -> ""
+            is Config.Detail -> "/articles/${config.article.id}"
+        }
+
+    private fun getConfigForPath(path: String): Config = Config.List
 
     @Serializable
     private sealed interface Config {

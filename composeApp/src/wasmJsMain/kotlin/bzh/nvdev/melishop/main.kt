@@ -1,29 +1,26 @@
 package bzh.nvdev.melishop
 
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.ComposeViewport
 import com.arkivanov.decompose.DefaultComponentContext
+import com.arkivanov.decompose.ExperimentalDecomposeApi
+import com.arkivanov.decompose.router.stack.webhistory.DefaultWebHistoryController
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.lifecycle.resume
 import com.arkivanov.essenty.lifecycle.stop
 import kotlinx.browser.document
 import org.w3c.dom.Document
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalDecomposeApi::class)
 fun main() {
     val lifecycle = LifecycleRegistry()
-    val rootComponent = DefaultRootComponent(DefaultComponentContext(lifecycle))
+    val rootComponent = DefaultRootComponent(
+        componentContext = DefaultComponentContext(lifecycle),
+        webHistoryController = DefaultWebHistoryController()
+    )
     lifecycle.attachToDocument()
     ComposeViewport(document.body!!) {
         App(rootComponent = rootComponent)
-        /**val article by remember { mutableStateOf(fakeArticle) }
-        BoxWithConstraints {
-            ArticleDetailContent(maxWidth, article)
-        }**/
     }
 }
 
