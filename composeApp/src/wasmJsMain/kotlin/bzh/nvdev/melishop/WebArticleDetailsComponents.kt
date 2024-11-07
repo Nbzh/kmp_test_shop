@@ -99,7 +99,8 @@ fun ArticleDetailContent(screenWidth: Dp, article: Article) {
                     Text(text = priceAnnotatedString, modifier = Modifier.align(Alignment.End))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         TextField(
                             value = quantity.toString(),
