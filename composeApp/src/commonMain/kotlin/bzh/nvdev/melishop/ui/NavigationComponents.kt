@@ -1,7 +1,10 @@
-package bzh.nvdev.melishop
+package bzh.nvdev.melishop.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import bzh.nvdev.melishop.ArticleDetailPage
+import bzh.nvdev.melishop.ArticleListPage
+import bzh.nvdev.melishop.data.RootComponent
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation

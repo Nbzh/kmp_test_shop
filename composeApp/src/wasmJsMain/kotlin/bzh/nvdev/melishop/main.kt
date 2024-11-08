@@ -2,6 +2,8 @@ package bzh.nvdev.melishop
 
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.ComposeViewport
+import bzh.nvdev.melishop.data.DefaultRootComponent
+import bzh.nvdev.melishop.ui.App
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.webhistory.DefaultWebHistoryController

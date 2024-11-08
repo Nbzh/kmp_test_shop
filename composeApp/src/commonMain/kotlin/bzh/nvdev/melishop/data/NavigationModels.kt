@@ -1,9 +1,5 @@
-package bzh.nvdev.melishop
+package bzh.nvdev.melishop.data
 
-import bzh.nvdev.melishop.data.Article
-import bzh.nvdev.melishop.data.Category
-import bzh.nvdev.melishop.data.fakeArticle
-import bzh.nvdev.melishop.data.fakeCategories
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.ChildStack

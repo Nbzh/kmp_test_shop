@@ -33,7 +33,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import bzh.nvdev.melishop.data.Article
+import bzh.nvdev.melishop.data.ArticleListComponent
+import bzh.nvdev.melishop.data.CategoryListComponent
 import bzh.nvdev.melishop.data.Label
+import bzh.nvdev.melishop.ui.CategoryFilterRow
+import bzh.nvdev.melishop.ui.ChipList
 import bzh.nvdev.melishop.utils.calculateNumberOfColumns
 import bzh.nvdev.melishop.utils.formatToTwoDecimalPlaces
 import bzh.nvdev.melishop.utils.hexToColor

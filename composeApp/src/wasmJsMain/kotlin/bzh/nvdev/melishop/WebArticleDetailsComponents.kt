@@ -33,13 +33,11 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import bzh.nvdev.melishop.data.Article
+import bzh.nvdev.melishop.data.ArticleComponent
+import bzh.nvdev.melishop.ui.ChipList
 import bzh.nvdev.melishop.utils.formatToTwoDecimalPlaces
 import coil3.compose.AsyncImage
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import melishop.composeapp.generated.resources.Res
-import melishop.composeapp.generated.resources.icon_add
-import melishop.composeapp.generated.resources.icon_remove
-import org.jetbrains.compose.resources.painterResource
 
 @Composable
 actual fun ArticleDetailPage(articleComponent: ArticleComponent) {
@@ -101,7 +99,8 @@ fun ArticleDetailContent(screenWidth: Dp, article: Article) {
                     Text(text = priceAnnotatedString, modifier = Modifier.align(Alignment.End))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         TextField(
                             value = quantity.toString(),
