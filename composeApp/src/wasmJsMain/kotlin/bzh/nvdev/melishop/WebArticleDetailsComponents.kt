@@ -33,8 +33,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import bzh.nvdev.melishop.api.ApiResult
+import bzh.nvdev.melishop.api.callArticle
 import bzh.nvdev.melishop.data.Article
 import bzh.nvdev.melishop.data.ArticleComponent
+import bzh.nvdev.melishop.data.FoodComponentImpl
 import bzh.nvdev.melishop.ui.ChipList
 import bzh.nvdev.melishop.utils.formatToTwoDecimalPlaces
 import coil3.compose.AsyncImage
@@ -43,11 +46,17 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 @Composable
 actual fun ArticleDetailPage(articleComponent: ArticleComponent) {
     val article by articleComponent.model.subscribeAsState()
-    LaunchedEffect("OnStart"){
-
+    LaunchedEffect("OnStart") {
+        (articleComponent as? FoodComponentImpl)?.article?.also {
+            (callArticle(articleComponent.article) as? ApiResult.Success)?.also {
+                articleComponent.model.value = ArticleComponent.Model(it.data)
+            }
+        }
     }
     BoxWithConstraints {
-        ArticleDetailContent(screenWidth = maxWidth, article = article.item)
+        article.item?.also {
+            ArticleDetailContent(screenWidth = maxWidth, article = it)
+        }
     }
 }
 

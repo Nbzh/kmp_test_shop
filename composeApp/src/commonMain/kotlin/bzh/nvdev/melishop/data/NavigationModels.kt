@@ -61,7 +61,7 @@ interface ArticleComponent {
     val model: Value<Model>
 
     data class Model(
-        val item: Article,
+        val item: Article?,
     )
 
     fun onBackPressed()
@@ -100,12 +100,12 @@ class FoodListComponentImpl(
 
 class FoodComponentImpl(
     componentContext: ComponentContext,
-    article: String,
+    val article: String,
     private val onFinished: () -> Unit,
 ) : ArticleComponent, ComponentContext by componentContext {
 
-    override val model: Value<ArticleComponent.Model> =
-        MutableValue(ArticleComponent.Model(fakeArticle(article)))
+    override val model: MutableValue<ArticleComponent.Model> =
+        MutableValue(ArticleComponent.Model(null))
 
     override fun onBackPressed() = onFinished()
 }

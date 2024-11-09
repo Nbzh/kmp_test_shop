@@ -14,5 +14,5 @@ suspend fun callArticles(categories : List<String>?) =
 
 suspend fun callArticle(articleId: String) =
     withContext(Dispatchers.Default) {
-        makeApiGetRequest<Article>("/api/article/$articleId")
+        makeApiGetRequest<Article>("/api/articles/$articleId")
     }
