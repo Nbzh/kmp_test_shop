@@ -1,5 +1,7 @@
 package bzh.nvdev.melishop.data
 
+import bzh.nvdev.melishop.api.ApiResult
+import bzh.nvdev.melishop.api.callArticles
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.ChildStack
@@ -81,8 +83,9 @@ class FoodListComponentImpl(
     override suspend fun filter(filterCategories: List<String>) {
         withContext(Dispatchers.Default) {
             model.value = ArticleListComponent.Model(
-                allArticles.filter { a -> a.category.id in filterCategories }
-                    .sortedBy { a -> a.name }
+                with(callArticles(filterCategories)){
+                    (this as? ApiResult.Success)?.data?.sortedBy { a -> a.name } ?: listOf()
+                }
             )
         }
     }
@@ -109,8 +112,9 @@ class FoodComponentImpl(
 
 class CategoryListComponentImpl(componentContext: ComponentContext) : CategoryListComponent,
     ComponentContext by componentContext {
+
     override val model: MutableValue<CategoryListComponent.Model> =
-        MutableValue(CategoryListComponent.Model(fakeCategories))
+        MutableValue(CategoryListComponent.Model(listOf()))
 }
 
 @OptIn(ExperimentalDecomposeApi::class)

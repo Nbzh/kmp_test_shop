@@ -2,6 +2,7 @@ package bzh.nvdev.melishop
 
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.ComposeViewport
+import bzh.nvdev.melishop.api.KtorClient
 import bzh.nvdev.melishop.data.DefaultRootComponent
 import bzh.nvdev.melishop.ui.App
 import com.arkivanov.decompose.DefaultComponentContext
@@ -10,6 +11,7 @@ import com.arkivanov.decompose.router.stack.webhistory.DefaultWebHistoryControll
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.lifecycle.resume
 import com.arkivanov.essenty.lifecycle.stop
+import io.ktor.client.engine.js.Js
 import kotlinx.browser.document
 import org.w3c.dom.Document
 
@@ -21,6 +23,7 @@ fun main() {
         webHistoryController = DefaultWebHistoryController()
     )
     lifecycle.attachToDocument()
+    KtorClient.initClient(Js, getSystemLocaleLanguage())
     ComposeViewport(document.body!!) {
         App(rootComponent = rootComponent)
     }

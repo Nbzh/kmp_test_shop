@@ -57,6 +57,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.kotlinx.coroutines.android)
+            implementation(libs.ktor.client.cio)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -68,6 +69,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.bundles.ktor.common)
+            implementation(libs.ktor.client.content.negotiation)
             implementation(libs.coil.compose.core)
             implementation(libs.coil.compose)
             implementation(libs.coil)
@@ -85,6 +87,8 @@ kotlin {
         wasmJsMain.dependencies {
             implementation(libs.kotlinx.coroutines.core.wasm.js)
             implementation(libs.material.icons.extended.wasm.js)
+            implementation(libs.kotlinx.browser)
+            implementation(libs.ktor.client.js)
         }
     }
 }

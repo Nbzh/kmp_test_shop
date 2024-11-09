@@ -20,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,6 +43,9 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 @Composable
 actual fun ArticleDetailPage(articleComponent: ArticleComponent) {
     val article by articleComponent.model.subscribeAsState()
+    LaunchedEffect("OnStart"){
+
+    }
     BoxWithConstraints {
         ArticleDetailContent(screenWidth = maxWidth, article = article.item)
     }
