@@ -1,11 +1,9 @@
 package bzh.nvdev.melishop.api
 
+import bzh.nvdev.melishop.apiKey
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngineConfig
 import io.ktor.client.engine.HttpClientEngineFactory
-import io.ktor.client.plugins.ClientRequestException
-import io.ktor.client.plugins.HttpResponseValidator
-import io.ktor.client.plugins.ServerResponseException
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.request.header
@@ -31,25 +29,20 @@ object KtorClient {
             }
             defaultRequest {
                 header(HttpHeaders.AcceptLanguage, language)
+                header("X-API-KEY", apiKey)
                 url {
                     protocol = URLProtocol.HTTP
                     host = "localhost:8080"
                 }
             }
-            HttpResponseValidator {
-                handleResponseExceptionWithRequest { cause, _ ->
-                    when (cause) {
-                        is ClientRequestException -> {
-                            // Handle client request exceptions
-                        }
+        }
+    }
 
-                        is ServerResponseException -> {
-                            // Handle server response exceptions
-                        }
-
-                        else -> throw cause
-                    }
-                }
+    fun updateAuthorizationHeader(token: String) {
+        httpClient = httpClient.config {
+            defaultRequest {
+                headers.remove(HttpHeaders.Authorization)
+                header(HttpHeaders.Authorization, "Bearer $token")
             }
         }
     }

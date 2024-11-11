@@ -6,6 +6,8 @@ import bzh.nvdev.melishop.data.ArticleComponent
 import bzh.nvdev.melishop.data.ArticleListComponent
 import bzh.nvdev.melishop.data.CategoryListComponent
 
+expect val apiKey : String
+
 @Composable
 expect fun ArticleListPage(
     categoryListComponent: CategoryListComponent,

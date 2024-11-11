@@ -13,6 +13,7 @@ import com.arkivanov.essenty.lifecycle.resume
 import com.arkivanov.essenty.lifecycle.stop
 import io.ktor.client.engine.js.Js
 import kotlinx.browser.document
+import kotlinx.browser.window
 import org.w3c.dom.Document
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalDecomposeApi::class)

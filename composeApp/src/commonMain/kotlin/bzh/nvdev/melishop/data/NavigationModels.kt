@@ -179,8 +179,8 @@ class DefaultRootComponent(
         }
 
     private fun getConfigForPath(path: String): Config =
-        if (path.startsWith("/articles/") && path.length > 10)
-            Config.Detail(path.substring(10))
+        if(path.removeSuffix("/") == "/articles") Config.List
+        else if (path.startsWith("/articles/")) Config.Detail(path.substring(10))
         else Config.List
 
     @Serializable

@@ -80,6 +80,7 @@ kotlin {
             implementation(libs.decompose)
             implementation(libs.decompose.extensions.compose)
             implementation(libs.sonner)
+            implementation(libs.firebase.auth)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -123,4 +124,3 @@ android {
 dependencies {
     debugImplementation(compose.uiTooling)
 }
-

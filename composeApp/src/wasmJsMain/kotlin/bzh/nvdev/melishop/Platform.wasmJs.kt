@@ -1,8 +1,8 @@
 package bzh.nvdev.melishop
 
-import androidx.compose.ui.text.intl.Locale
 import kotlinx.browser.window
 
+actual val apiKey : String = "MeliShop_apiKey_validation"
 
 class WasmPlatform: Platform {
     override val name: String = "Web with Kotlin/Wasm"
